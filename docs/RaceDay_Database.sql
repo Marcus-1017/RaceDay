@@ -1,0 +1,29 @@
+CREATE DATABASE RaceDayDB;
+GO
+USE RaceDayDB;
+GO
+CREATE TABLE Users (
+    UserID INT IDENTITY(1,1) PRIMARY KEY,
+    FullName VARCHAR(100) NOT NULL,
+    Email VARCHAR(150) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Role VARCHAR(20) NOT NULL
+);
+CREATE TABLE Events (
+    EventID INT IDENTITY(1,1) PRIMARY KEY,
+    EventName VARCHAR(100) NOT NULL,
+    Description VARCHAR(500),
+    EventDate DATE NOT NULL,
+    Location VARCHAR(150) NOT NULL,
+    Distance DECIMAL(5,2),
+    EventType VARCHAR(20) NOT NULL,
+    OrganiserID INT NOT NULL,
+    FOREIGN KEY (OrganiserID) 
+    REFERENCES Users(UserID)
+);
+CREATE TABLE Category (
+    CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+    CategoryName VARCHAR(50) NOT NULL,
+    EventID INT NOT NULL,
+    FOREIGN KEY (EventID) REFERENCES Events(EventID)
+);
