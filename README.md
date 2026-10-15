@@ -41,6 +41,3 @@ to run the sql script:
 
 placeholder screenshot of github actions
 
-## Video Demonstration YouTube Link
-
-placeholder link
