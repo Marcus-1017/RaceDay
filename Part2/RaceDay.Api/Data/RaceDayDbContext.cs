@@ -43,8 +43,7 @@ public class RaceDayDbContext : DbContext
         modelBuilder.Entity<Enrolment>().Property(e => e.EnrolmentStatus).HasMaxLength(20).HasDefaultValue("Pending");
 
         modelBuilder.Entity<Result>().Property(r => r.FinishTime).HasMaxLength(20);
-
-        modelBuilder.Entity<EventImage>().Property(i => i.ImageURL).HasMaxLength(150);
-        modelBuilder.Entity<ProfileImage>().Property(i => i.ImageURL).HasMaxLength(150);
+        modelBuilder.Entity<EventImage>().HasKey(i => i.ImageID);
+        modelBuilder.Entity<ProfileImage>().HasKey(i => i.ImageID);
     }
 }
