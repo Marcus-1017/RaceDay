@@ -15,7 +15,7 @@ jobs:
         run: test -d docs
 
       - name: Check ERD
-        run: test -f docs/RaceDay_ERD.pdf
+        run: test -f docs/RaceDay_ERD.png
 
       - name: Check API Endpoint Plan
         run: test -f docs/RaceDay_API_Endpoint_Plan.pdf
