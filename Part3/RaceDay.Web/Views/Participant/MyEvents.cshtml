@@ -1,0 +1,26 @@
+@model List<MyEnrolmentItem>
+@{ ViewData["Title"] = "My Events"; }
+<h1>My Events</h1>
+@if (!Model.Any())
+{
+    <p class="text-muted">You have not entered any events yet.</p>
+}
+else
+{
+    <div class="card">
+        <table class="table mb-0 align-middle">
+            <thead><tr><th>Event</th><th>Date</th><th>Category</th><th>Status</th></tr></thead>
+            <tbody>
+                @foreach (var e in Model)
+                {
+                    <tr>
+                        <td>@e.EventName</td>
+                        <td>@e.EventDate.ToString("d MMM yyyy")</td>
+                        <td>@e.CategoryName</td>
+                        <td><partial name="_Status" model="e.EnrolmentStatus" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -1,0 +1,34 @@
+@model List<ResultItem>
+@{ ViewData["Title"] = "My Results"; }
+@functions {
+    static string Ord(int n)
+    {
+        if (n % 100 >= 11 && n % 100 <= 13) return n + "th";
+        return n + (n % 10 == 1 ? "st" : n % 10 == 2 ? "nd" : n % 10 == 3 ? "rd" : "th");
+    }
+}
+<h1>My Results</h1>
+@if (!Model.Any())
+{
+    <p class="text-muted">No results have been captured for you yet.</p>
+}
+else
+{
+    <div class="card">
+        <table class="table mb-0 align-middle">
+            <thead><tr><th>Event</th><th>Date</th><th>Category</th><th>Finish time</th><th>Position</th></tr></thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>@r.EventName</td>
+                        <td>@r.EventDate.ToString("d MMM yyyy")</td>
+                        <td>@r.CategoryName</td>
+                        <td>@(r.FinishTime ?? "-")</td>
+                        <td>@(r.FinishPosition.HasValue ? Ord(r.FinishPosition.Value) : "-")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
