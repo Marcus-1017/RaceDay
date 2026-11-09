@@ -1,0 +1,35 @@
+@model DetailsVm
+@{ ViewData["Title"] = Model.Event.EventName; }
+<a asp-action="Index" class="btn btn-link ps-0">&larr; Back to events</a>
+<div class="card p-4 mb-4">
+    <span class="badge bg-dark mb-2 align-self-start">@Model.Event.EventType</span>
+    <h1>@Model.Event.EventName</h1>
+    <p class="lead">@Model.Event.Description</p>
+    <p class="mb-0">
+        <strong>Date:</strong> @Model.Event.EventDate.ToString("d MMM yyyy")<br />
+        <strong>Location:</strong> @Model.Event.Location<br />
+        <strong>Distance:</strong> @(Model.Event.Distance?.ToString("0.##") ?? "-") km
+    </p>
+</div>
+<div class="card p-4">
+    <h4>Enter this event</h4>
+    @if (!Model.Categories.Any())
+    {
+        <p class="text-muted mb-0">The organiser has not added categories yet.</p>
+    }
+    else
+    {
+        <form asp-action="EnterEvent" method="post" class="row g-2">
+            <input type="hidden" name="eventId" value="@Model.Event.EventID" />
+            <div class="col-md-6">
+                <select name="categoryId" class="form-select">
+                    @foreach (var c in Model.Categories)
+                    {
+                        <option value="@c.CategoryID">@c.CategoryName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3"><button class="btn btn-primary w-100">Enter Event</button></div>
+        </form>
+    }
+</div>

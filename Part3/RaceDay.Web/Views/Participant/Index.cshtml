@@ -1,0 +1,40 @@
+@model List<EventItem>
+@{
+    ViewData["Title"] = "Upcoming Events";
+    var type = ViewBag.Type as string;
+    var search = ViewBag.Search as string;
+}
+<h1>Upcoming Events</h1>
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-5"><input name="search" value="@search" class="form-control" placeholder="Search by name or location" /></div>
+    <div class="col-md-3">
+        <select name="type" class="form-select">
+            <option value="">All types</option>
+            <option value="Run" selected="@(type == "Run")">Run</option>
+            <option value="Walk" selected="@(type == "Walk")">Walk</option>
+            <option value="Cycle" selected="@(type == "Cycle")">Cycle</option>
+        </select>
+    </div>
+    <div class="col-md-2"><button class="btn btn-primary w-100">Filter</button></div>
+</form>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No upcoming events match your filters.</p>
+}
+<div class="row g-3">
+    @foreach (var e in Model)
+    {
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <span class="badge bg-dark mb-2">@e.EventType</span>
+                    <h5 class="card-title">@e.EventName</h5>
+                    <p class="text-muted mb-1">@e.EventDate.ToString("d MMM yyyy") - @e.Location</p>
+                    <p class="mb-3">@(e.Distance?.ToString("0.##") ?? "-") km</p>
+                    <a asp-action="Details" asp-route-id="@e.EventID" class="btn btn-primary btn-sm">View and enter</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
