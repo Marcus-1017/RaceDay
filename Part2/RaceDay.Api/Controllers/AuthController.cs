@@ -17,9 +17,6 @@ public class AuthController : ControllerBase
         _db = db;
     }
 
-    /// <summary>Registers a new user as either an Organiser or a Participant.</summary>
-    /// <response code="201">User created.</response>
-    /// <response code="400">Invalid data, invalid role, or email already registered.</response>
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
@@ -47,5 +44,30 @@ public class AuthController : ControllerBase
             FullName = user.FullName,
             Role = user.Role
         });
+    }
+
+    /// <summary>Logs a user in and starts a session storing their user ID and role.</summary>
+    /// <response code="200">Login successful.</response>
+    /// <response code="401">Wrong email or password.</response>
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request)
+    {
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+        if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            return Unauthorized(new { message = "Invalid email or password." });
+
+        HttpContext.Session.SetInt32("UserID", user.UserID);
+        HttpContext.Session.SetString("Role", user.Role);
+
+        return Ok(new AuthResponse { UserID = user.UserID, FullName = user.FullName, Role = user.Role });
+    }
+
+    /// <summary>Ends the current session.</summary>
+    /// <response code="200">Logged out.</response>
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return Ok(new { message = "Logged out." });
     }
 }
