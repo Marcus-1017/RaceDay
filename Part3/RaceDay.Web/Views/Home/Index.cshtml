@@ -1,8 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿@{ ViewData["Title"] = "Welcome"; }
+<div class="hero text-center">
+    <h1 class="display-3 text-white">RACEDAY</h1>
+    <p class="lead">Find your next run, walk or ride across South Africa. Enter in seconds and track every finish.</p>
+    <a asp-controller="Auth" asp-action="Register" class="btn btn-primary btn-lg me-2">Join RaceDay</a>
+    <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-light btn-lg">Login</a>
 </div>
