@@ -1,0 +1,30 @@
+@model List<DashboardRow>
+@{ ViewData["Title"] = "Dashboard"; }
+<h1>Organiser Dashboard</h1>
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="card p-3"><div class="text-muted">My events</div><div class="display-6">@Model.Count</div></div></div>
+    <div class="col-md-4"><div class="card p-3"><div class="text-muted">Total enrolments</div><div class="display-6">@(Model.Sum(r => r.Enrolments))</div></div></div>
+    <div class="col-md-4"><div class="card p-3"><div class="text-muted">Upcoming events</div><div class="display-6">@(Model.Count(r => r.Event.EventDate >= DateTime.Today))</div></div></div>
+</div>
+<div class="card">
+    <table class="table mb-0 align-middle">
+        <thead><tr><th>Event</th><th>Date</th><th>Enrolments</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Event.EventName</td>
+                    <td>
+                        @r.Event.EventDate.ToString("d MMM yyyy")
+                        @if (r.Event.EventDate >= DateTime.Today)
+                        {
+                            <span class="badge bg-success ms-1">Upcoming</span>
+                        }
+                    </td>
+                    <td>@r.Enrolments</td>
+                    <td><a asp-action="Manage" asp-route-id="@r.Event.EventID" class="btn btn-sm btn-primary">Manage</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
